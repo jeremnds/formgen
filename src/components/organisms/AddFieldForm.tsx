@@ -119,7 +119,12 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
         </div>
 
         {validation && (
-          <div className="mt-6 flex flex-col gap-4 rounded-lg border border-purple-300 p-6">
+          <div
+            className={cn(
+              "mt-6 flex flex-col gap-4 overflow-hidden rounded-lg border border-purple-300 p-6 transition-[max-height] duration-500 ease-in-out",
+              validation ? "max-h-screen opacity-100" : "max-h-0 opacity-0",
+            )}
+          >
             <div className="flex items-center gap-2">
               <Controller
                 name="required"

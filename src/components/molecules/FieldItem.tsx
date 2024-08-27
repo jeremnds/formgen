@@ -13,13 +13,13 @@ export default function FieldItem({ field, isDragging }: FieldItemProps) {
     <div
       className={cn(
         "flex items-center justify-between px-4 py-2",
-        isDragging ? "bg-purple-400" : "bg-zinc-200",
+        isDragging ? "bg-purple-300" : "bg-zinc-200",
       )}
     >
-      <Grip />
-      <div className="flex flex-col">
-        <p>{field.name}</p>
-        <span className="text-sm capitalize text-zinc-700">{field.type}</span>
+      <Grip className="mr-4 h-5 w-5" />
+      <div className="mr-auto flex flex-col">
+        <p className="text-sm">{field.name}</p>
+        <span className="text-xs capitalize text-zinc-500">{field.type}</span>
       </div>
       <div className="space-x-1">
         <Button variant="outline" className="h-8 p-2">

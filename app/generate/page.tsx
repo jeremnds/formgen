@@ -16,12 +16,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Page() {
   const [fields, setFields] = useState<Field[]>([]);
 
   const handleAddField = (data: FieldFormData) => {
     const newField: Field = {
+      id: uuidv4(),
       name: data.name,
       type: data.type,
       options: data.options || undefined,
@@ -35,6 +37,7 @@ export default function Page() {
           }
         : undefined,
     };
+    console.log(newField);
     setFields((prevFields) => [...prevFields, newField]);
   };
 
@@ -44,11 +47,9 @@ export default function Page() {
     if (active.id !== over.id) {
       setFields((prevFields) => {
         const oldIndex = prevFields.findIndex(
-          (field) => field.name === active.id,
+          (field) => field.id === active.id,
         );
-        const newIndex = prevFields.findIndex(
-          (field) => field.name === over.id,
-        );
+        const newIndex = prevFields.findIndex((field) => field.id === over.id);
 
         return arrayMove(prevFields, oldIndex, newIndex);
       });
@@ -65,7 +66,7 @@ export default function Page() {
             modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
           >
             <SortableContext
-              items={fields.map((field) => field.name)}
+              items={fields.map((field) => field.id)}
               strategy={verticalListSortingStrategy}
             >
               <FieldList fields={fields} />

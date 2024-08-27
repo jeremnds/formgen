@@ -9,9 +9,9 @@ type FieldListProps = {
 
 export default function FieldList({ fields }: FieldListProps) {
   return (
-    <div className="flex min-h-72 flex-col gap-2 rounded-lg border px-8 py-6">
+    <div className="flex h-fit flex-col gap-2 rounded-lg border px-8 py-6">
       {fields.map((field) => (
-        <SortableField key={field.name} field={field} />
+        <SortableField key={field.id} field={field} />
       ))}
     </div>
   );
@@ -25,7 +25,7 @@ function SortableField({ field }: { field: Field }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: field.name });
+  } = useSortable({ id: field.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
