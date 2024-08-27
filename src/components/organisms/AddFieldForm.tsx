@@ -23,6 +23,7 @@ type AddFieldFormProps = {
 
 export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
   const [validation, setValidation] = useState(false);
+  const [type, setType] = useState("text");
 
   const {
     register,
@@ -41,6 +42,7 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
     onAddField(data);
     reset();
     setValidation(false);
+    setType("text");
   };
 
   return (
@@ -59,7 +61,13 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
             name="type"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  setType(value);
+                }}
+                value={field.value}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select a type" />
                 </SelectTrigger>
@@ -75,6 +83,23 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
             )}
           />
         </div>
+
+        {type === "radio" && (
+          <div className="flex flex-col gap-2">
+            <Label>Options (separate with ; )</Label>
+            <Input
+              type="text"
+              {...register("options")}
+              placeholder="Enter options separated by ;"
+            />
+            {errors.options && (
+              <span className="text-sm text-red-700">
+                {errors.options.message}
+              </span>
+            )}
+          </div>
+        )}
+
         <div className="flex items-center gap-2">
           <Controller
             name="validation"
@@ -92,6 +117,7 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
           />
           <Label>Add validation</Label>
         </div>
+
         {validation && (
           <div className="mt-6 flex flex-col gap-4 rounded-lg border border-purple-300 p-6">
             <div className="flex items-center gap-2">
@@ -126,8 +152,9 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
             </div>
           </div>
         )}
+
         <div className="flex items-center justify-between">
-          <Button>Add Field</Button>
+          <Button type="submit">Add Field</Button>
           <Link href="/" className={cn(buttonVariants(), "mt-4 rounded-lg")}>
             Generate form
           </Link>
