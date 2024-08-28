@@ -6,10 +6,11 @@ import {
   SelectValue,
 } from "@/src/components/atoms/shadcn/select";
 import { cn } from "@/src/lib/utils";
+import { Field } from "@/src/models/field.type";
 import { FieldFormData } from "@/src/models/form.type";
 import { FieldFormSchema } from "@/src/schemas/fieldForm.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../atoms/shadcn/button";
 import { Checkbox } from "../atoms/shadcn/checkbox";
@@ -19,9 +20,13 @@ import LibraryField from "./LibraryField";
 
 type AddFieldFormProps = {
   onAddField: (data: FieldFormData) => void;
+  updateField?: Field | null;
 };
 
-export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
+export default function AddFieldForm({
+  onAddField,
+  updateField,
+}: AddFieldFormProps) {
   const [validation, setValidation] = useState(false);
   const [type, setType] = useState("text");
   const [shadncn, setShadcn] = useState(true);
@@ -37,14 +42,49 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
   } = useForm<FieldFormData>({
     resolver: zodResolver(FieldFormSchema),
     defaultValues: {
+      name: "",
       type: "text",
+      options: "",
+      validation: false,
+      required: false,
+      errorMessage: "",
+      max: undefined,
+      min: undefined,
+      pattern: "",
     },
   });
 
+  useEffect(() => {
+    if (updateField) {
+      reset({
+        name: updateField.name,
+        type: updateField.type,
+        options: updateField.options || "",
+        validation: !!updateField.validation,
+        required: updateField.validation?.required || false,
+        max: updateField.validation?.max || undefined,
+        min: updateField.validation?.min || undefined,
+        pattern: updateField.validation?.pattern || "",
+        errorMessage: updateField.validation?.errorMessage || "",
+      });
+      setValidation(!!updateField.validation);
+      setType(updateField.type);
+    }
+  }, [updateField, reset]);
+
   const onSubmit: SubmitHandler<FieldFormData> = (data) => {
     onAddField(data);
-    console.log(data);
-    reset();
+    reset({
+      name: "",
+      type: "text",
+      options: "",
+      validation: false,
+      required: false,
+      errorMessage: "",
+      max: undefined,
+      min: undefined,
+      pattern: "",
+    });
     setValidation(false);
     setType("text");
   };
@@ -162,15 +202,21 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
             </div>
           </div>
         )}
-        <LibraryField />
+        <LibraryField
+          shadcn={shadncn}
+          setShadcn={() => setShadcn((prev) => !prev)}
+          rhf={rhf}
+          setRhf={() => setRhf((prev) => !prev)}
+          tsx={tsx}
+          setTsx={() => setTsx((prev) => !prev)}
+        />
         <div className="flex items-center justify-between">
-          <Button type="submit">Add Field</Button>
-          <Button type="button" className="mt-4 rounded-lg">
+          <Button type="submit" className={cn(updateField && "bg-purple-500")}>
+            {updateField ? "Edit Field" : "Add Field"}
+          </Button>
+          <Button type="button" className="rounded-lg">
             Generate Form
           </Button>
-          {/* <Link href="/" className={cn(buttonVariants(), "mt-4 rounded-lg")}>
-            Generate form
-          </Link> */}
         </div>
       </form>
     </div>

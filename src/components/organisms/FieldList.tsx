@@ -5,7 +5,7 @@ import FieldItem from "../molecules/FieldItem";
 
 type FieldListProps = {
   fields: Field[];
-  onUpdateField: () => void;
+  onUpdateField: (id: string) => void;
   onDeleteField: (id: string) => void;
 };
 
@@ -36,7 +36,7 @@ export default function FieldList({
 
 type SortableFieldProps = {
   field: Field;
-  onUpdateField: () => void;
+  onUpdateField: (id: string) => void;
   onDeleteField: (id: string) => void;
 };
 

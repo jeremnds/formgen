@@ -6,7 +6,7 @@ import { Button } from "../atoms/shadcn/button";
 type FieldItemProps = {
   field: Field;
   isDragging: boolean;
-  onUpdateField: () => void;
+  onUpdateField: (id: string) => void;
   onDeleteField: (id: string) => void;
 };
 
@@ -29,7 +29,11 @@ export default function FieldItem({
         <span className="text-xs capitalize text-zinc-500">{field.type}</span>
       </div>
       <div className="space-x-1">
-        <Button variant="outline" className="h-8 p-2" onClick={onUpdateField}>
+        <Button
+          variant="outline"
+          className="h-8 p-2"
+          onClick={() => onUpdateField(field.id)}
+        >
           <Pencil className="h-4 w-4" />
         </Button>
         <Button

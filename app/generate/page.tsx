@@ -29,10 +29,11 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function Page() {
   const [fields, setFields] = useState<Field[]>([]);
+  const [updateField, setUpdateField] = useState<Field | null>(null);
 
   const handleAddField = (data: FieldFormData) => {
     const newField: Field = {
-      id: uuidv4(),
+      id: updateField?.id || uuidv4(),
       name: data.name,
       type: data.type,
       options: data.options || undefined,
@@ -45,21 +46,30 @@ export default function Page() {
             errorMessage: data.errorMessage || undefined,
           }
         : undefined,
-      // lib: {
-      //   shadcn: data.shadcn,
-      //   rhf: data.rhf,
-      //   tsx: data.tsx,
-      // },
     };
-    console.log(newField);
-    setFields((prevFields) => [...prevFields, newField]);
+
+    if (updateField) {
+      const updatedFields = fields.map((field) =>
+        field.id === updateField.id ? newField : field,
+      );
+      setFields(updatedFields);
+      setUpdateField(null);
+    } else {
+      setFields((prevFields) => [...prevFields, newField]);
+    }
   };
 
   const handleDeleteField = (id: string) => {
     const newFields = fields.filter((field) => field.id !== id);
     setFields(newFields);
   };
-  const handleUpdateField = () => {};
+
+  const handleUpdateField = (id: string) => {
+    const field = fields.find((field) => field.id === id);
+    if (field) {
+      setUpdateField(field);
+    }
+  };
 
   const handleOnDragEnd = (event: any) => {
     const { active, over } = event;
@@ -76,6 +86,7 @@ export default function Page() {
     }
   };
 
+  // To enable onClick events on buttons
   const pointerSensor = useSensor(PointerSensor, {
     activationConstraint: {
       distance: 0.01,
@@ -115,7 +126,7 @@ export default function Page() {
           </DndContext>
         </div>
         <div className="order-1 md:order-2 md:basis-2/3">
-          <AddFieldForm onAddField={handleAddField} />
+          <AddFieldForm onAddField={handleAddField} updateField={updateField} />
         </div>
       </div>
     </Container>
