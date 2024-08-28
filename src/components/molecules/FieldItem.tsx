@@ -1,10 +1,10 @@
 import { cn } from "@/src/lib/utils";
-import { Field } from "@/src/models/field.type";
+import { FieldType } from "@/src/models/field.type";
 import { Grip, Pencil, Trash2 } from "lucide-react";
 import { Button } from "../atoms/shadcn/button";
 
 type FieldItemProps = {
-  field: Field;
+  field: FieldType;
   isDragging: boolean;
   onUpdateField: (id: string) => void;
   onDeleteField: (id: string) => void;

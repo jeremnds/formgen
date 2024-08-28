@@ -1,4 +1,4 @@
-export type Field = {
+export type FieldType = {
   id: string;
   name: string;
   type: string;
@@ -12,9 +12,4 @@ export type Field = {
         errorMessage?: string;
       }
     | undefined;
-  // lib: {
-  //   shadcn: boolean;
-  //   rhf: boolean;
-  //   tsx: boolean;
-  // };
 };

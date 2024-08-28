@@ -1,23 +1,17 @@
+import { LibraryFieldType } from "@/src/models/libraryField.type";
 import { Checkbox } from "../atoms/shadcn/checkbox";
 import { Label } from "../atoms/shadcn/label";
 
-type LibraryFieldProps = {
-  shadcn: boolean;
-  setShadcn: () => void;
-  rhf: boolean;
-  setRhf: () => void;
-  tsx: boolean;
-  setTsx: () => void;
-};
-
 export default function LibraryField({
   shadcn,
-  setShadcn,
+  toggleShadcn,
   rhf,
-  setRhf,
+  toggleRhf,
+  zod,
+  toggleZod,
   tsx,
-  setTsx,
-}: LibraryFieldProps) {
+  toggleTsx,
+}: LibraryFieldType) {
   return (
     <div className="mt-2 flex flex-col">
       <Label className="mb-2">Options for your form</Label>
@@ -26,20 +20,25 @@ export default function LibraryField({
           <Checkbox
             name="shadcn"
             checked={shadcn}
-            onCheckedChange={setShadcn}
+            onCheckedChange={toggleShadcn}
           />
 
-          <Label>Use Shadcn</Label>
+          <Label>Shadcn</Label>
         </div>
         <div className="flex items-center gap-2">
-          <Checkbox name="rhf" checked={rhf} onCheckedChange={setRhf} />
+          <Checkbox name="rhf" checked={rhf} onCheckedChange={toggleRhf} />
 
-          <Label>Use React Hook Form</Label>
+          <Label>React Hook Form</Label>
         </div>
         <div className="flex items-center gap-2">
-          <Checkbox name="tsx" checked={tsx} onCheckedChange={setTsx} />
+          <Checkbox name="zod" checked={zod} onCheckedChange={toggleZod} />
 
-          <Label>Render in TypeScript</Label>
+          <Label>Zod</Label>
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox name="tsx" checked={tsx} onCheckedChange={toggleTsx} />
+
+          <Label>TypeScript</Label>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
-import { Field } from "@/src/models/field.type";
+import { FieldType } from "@/src/models/field.type";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import FieldItem from "../molecules/FieldItem";
 
 type FieldListProps = {
-  fields: Field[];
+  fields: FieldType[];
   onUpdateField: (id: string) => void;
   onDeleteField: (id: string) => void;
 };
@@ -35,7 +35,7 @@ export default function FieldList({
 }
 
 type SortableFieldProps = {
-  field: Field;
+  field: FieldType;
   onUpdateField: (id: string) => void;
   onDeleteField: (id: string) => void;
 };

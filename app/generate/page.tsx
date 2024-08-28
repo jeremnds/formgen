@@ -3,7 +3,8 @@
 import Container from "@/src/components/atoms/Container";
 import AddFieldForm from "@/src/components/organisms/AddFieldForm";
 import FieldList from "@/src/components/organisms/FieldList";
-import { Field } from "@/src/models/field.type";
+import { createFormPrompt } from "@/src/lib/utils";
+import { FieldType } from "@/src/models/field.type";
 import { FieldFormData } from "@/src/models/form.type";
 import {
   closestCenter,
@@ -28,11 +29,15 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Page() {
-  const [fields, setFields] = useState<Field[]>([]);
-  const [updateField, setUpdateField] = useState<Field | null>(null);
+  const [fields, setFields] = useState<FieldType[]>([]);
+  const [updateField, setUpdateField] = useState<FieldType | null>(null);
+  const [shadcn, setShadcn] = useState(true);
+  const [rhf, setRhf] = useState(true);
+  const [zod, setZod] = useState(true);
+  const [tsx, setTsx] = useState(true);
 
   const handleAddField = (data: FieldFormData) => {
-    const newField: Field = {
+    const newField: FieldType = {
       id: updateField?.id || uuidv4(),
       name: data.name,
       type: data.type,
@@ -69,6 +74,18 @@ export default function Page() {
     if (field) {
       setUpdateField(field);
     }
+  };
+
+  const handleGenerateForm = () => {
+    const options = {
+      shadcn,
+      rhf,
+      zod,
+      tsx,
+    };
+
+    const prompt = createFormPrompt(fields, options);
+    console.log(prompt);
   };
 
   const handleOnDragEnd = (event: any) => {
@@ -126,7 +143,19 @@ export default function Page() {
           </DndContext>
         </div>
         <div className="order-1 md:order-2 md:basis-2/3">
-          <AddFieldForm onAddField={handleAddField} updateField={updateField} />
+          <AddFieldForm
+            onAddField={handleAddField}
+            updateField={updateField}
+            onGenerateForm={handleGenerateForm}
+            shadcn={shadcn}
+            toggleShadcn={() => setShadcn((prev) => !prev)}
+            rhf={rhf}
+            toggleRhf={() => setRhf((prev) => !prev)}
+            zod={zod}
+            toggleZod={() => setZod((prev) => !prev)}
+            tsx={tsx}
+            toggleTsx={() => setTsx((prev) => !prev)}
+          />
         </div>
       </div>
     </Container>

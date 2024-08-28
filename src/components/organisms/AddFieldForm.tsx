@@ -6,8 +6,9 @@ import {
   SelectValue,
 } from "@/src/components/atoms/shadcn/select";
 import { cn } from "@/src/lib/utils";
-import { Field } from "@/src/models/field.type";
+import { FieldType } from "@/src/models/field.type";
 import { FieldFormData } from "@/src/models/form.type";
+import { LibraryFieldType } from "@/src/models/libraryField.type";
 import { FieldFormSchema } from "@/src/schemas/fieldForm.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -20,18 +21,25 @@ import LibraryField from "./LibraryField";
 
 type AddFieldFormProps = {
   onAddField: (data: FieldFormData) => void;
-  updateField?: Field | null;
-};
+  updateField?: FieldType | null;
+  onGenerateForm: () => void;
+} & LibraryFieldType;
 
 export default function AddFieldForm({
   onAddField,
   updateField,
+  onGenerateForm,
+  shadcn,
+  toggleShadcn,
+  rhf,
+  toggleRhf,
+  zod,
+  toggleZod,
+  tsx,
+  toggleTsx,
 }: AddFieldFormProps) {
   const [validation, setValidation] = useState(false);
   const [type, setType] = useState("text");
-  const [shadncn, setShadcn] = useState(true);
-  const [rhf, setRhf] = useState(true);
-  const [tsx, setTsx] = useState(true);
 
   const {
     register,
@@ -119,7 +127,6 @@ export default function AddFieldForm({
                   <SelectItem value="text">Text</SelectItem>
                   <SelectItem value="number">Number</SelectItem>
                   <SelectItem value="textarea">Textarea</SelectItem>
-                  <SelectItem value="email">Email</SelectItem>
                   <SelectItem value="checkbox">Checkbox</SelectItem>
                   <SelectItem value="radio">Radio</SelectItem>
                 </SelectContent>
@@ -203,18 +210,20 @@ export default function AddFieldForm({
           </div>
         )}
         <LibraryField
-          shadcn={shadncn}
-          setShadcn={() => setShadcn((prev) => !prev)}
+          shadcn={shadcn}
+          toggleShadcn={toggleShadcn}
           rhf={rhf}
-          setRhf={() => setRhf((prev) => !prev)}
+          toggleRhf={toggleRhf}
+          zod={zod}
+          toggleZod={toggleZod}
           tsx={tsx}
-          setTsx={() => setTsx((prev) => !prev)}
+          toggleTsx={toggleTsx}
         />
         <div className="flex items-center justify-between">
           <Button type="submit" className={cn(updateField && "bg-purple-500")}>
             {updateField ? "Edit Field" : "Add Field"}
           </Button>
-          <Button type="button" className="rounded-lg">
+          <Button type="button" className="rounded-lg" onClick={onGenerateForm}>
             Generate Form
           </Button>
         </div>
