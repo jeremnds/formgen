@@ -5,7 +5,16 @@ import AddFieldForm from "@/src/components/organisms/AddFieldForm";
 import FieldList from "@/src/components/organisms/FieldList";
 import { Field } from "@/src/models/field.type";
 import { FieldFormData } from "@/src/models/form.type";
-import { closestCenter, DndContext } from "@dnd-kit/core";
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import {
   restrictToVerticalAxis,
   restrictToWindowEdges,
@@ -36,10 +45,21 @@ export default function Page() {
             errorMessage: data.errorMessage || undefined,
           }
         : undefined,
+      // lib: {
+      //   shadcn: data.shadcn,
+      //   rhf: data.rhf,
+      //   tsx: data.tsx,
+      // },
     };
     console.log(newField);
     setFields((prevFields) => [...prevFields, newField]);
   };
+
+  const handleDeleteField = (id: string) => {
+    const newFields = fields.filter((field) => field.id !== id);
+    setFields(newFields);
+  };
+  const handleUpdateField = () => {};
 
   const handleOnDragEnd = (event: any) => {
     const { active, over } = event;
@@ -56,11 +76,28 @@ export default function Page() {
     }
   };
 
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 0.01,
+    },
+  });
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(
+    mouseSensor,
+    touchSensor,
+    keyboardSensor,
+    pointerSensor,
+  );
+
   return (
     <Container className="mt-16">
       <div className="flex flex-col gap-6 md:flex-row">
         <div className="order-2 md:order-1 md:basis-1/3">
           <DndContext
+            sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleOnDragEnd}
             modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
@@ -69,7 +106,11 @@ export default function Page() {
               items={fields.map((field) => field.id)}
               strategy={verticalListSortingStrategy}
             >
-              <FieldList fields={fields} />
+              <FieldList
+                fields={fields}
+                onDeleteField={handleDeleteField}
+                onUpdateField={handleUpdateField}
+              />
             </SortableContext>
           </DndContext>
         </div>

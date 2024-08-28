@@ -9,13 +9,13 @@ import { cn } from "@/src/lib/utils";
 import { FieldFormData } from "@/src/models/form.type";
 import { FieldFormSchema } from "@/src/schemas/fieldForm.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Button, buttonVariants } from "../atoms/shadcn/button";
+import { Button } from "../atoms/shadcn/button";
 import { Checkbox } from "../atoms/shadcn/checkbox";
 import { Input } from "../atoms/shadcn/input";
 import { Label } from "../atoms/shadcn/label";
+import LibraryField from "./LibraryField";
 
 type AddFieldFormProps = {
   onAddField: (data: FieldFormData) => void;
@@ -24,6 +24,9 @@ type AddFieldFormProps = {
 export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
   const [validation, setValidation] = useState(false);
   const [type, setType] = useState("text");
+  const [shadncn, setShadcn] = useState(true);
+  const [rhf, setRhf] = useState(true);
+  const [tsx, setTsx] = useState(true);
 
   const {
     register,
@@ -40,6 +43,7 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
 
   const onSubmit: SubmitHandler<FieldFormData> = (data) => {
     onAddField(data);
+    console.log(data);
     reset();
     setValidation(false);
     setType("text");
@@ -121,7 +125,7 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
         {validation && (
           <div
             className={cn(
-              "mt-6 flex flex-col gap-4 overflow-hidden rounded-lg border border-purple-300 p-6 transition-[max-height] duration-500 ease-in-out",
+              "flex flex-col gap-4 overflow-hidden rounded-lg border border-purple-300 p-6 transition-[max-height] duration-500 ease-in-out",
               validation ? "max-h-screen opacity-100" : "max-h-0 opacity-0",
             )}
           >
@@ -144,25 +148,29 @@ export default function AddFieldForm({ onAddField }: AddFieldFormProps) {
               <Input type="text" {...register("errorMessage")} />
             </div>
             <div>
-              <Label>Max</Label>
-              <Input type="number" {...register("max")} />
+              <Label>Min</Label>
+              <Input type="number" {...register("min")} min={1} />
             </div>
             <div>
-              <Label>Min</Label>
-              <Input type="number" {...register("min")} />
+              <Label>Max</Label>
+              <Input type="number" {...register("max")} min={1} />
             </div>
+
             <div>
               <Label>Regex pattern</Label>
               <Input type="text" {...register("pattern")} />
             </div>
           </div>
         )}
-
+        <LibraryField />
         <div className="flex items-center justify-between">
           <Button type="submit">Add Field</Button>
-          <Link href="/" className={cn(buttonVariants(), "mt-4 rounded-lg")}>
+          <Button type="button" className="mt-4 rounded-lg">
+            Generate Form
+          </Button>
+          {/* <Link href="/" className={cn(buttonVariants(), "mt-4 rounded-lg")}>
             Generate form
-          </Link>
+          </Link> */}
         </div>
       </form>
     </div>

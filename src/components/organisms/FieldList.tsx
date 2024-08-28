@@ -5,19 +5,46 @@ import FieldItem from "../molecules/FieldItem";
 
 type FieldListProps = {
   fields: Field[];
+  onUpdateField: () => void;
+  onDeleteField: (id: string) => void;
 };
 
-export default function FieldList({ fields }: FieldListProps) {
+export default function FieldList({
+  fields,
+  onUpdateField,
+  onDeleteField,
+}: FieldListProps) {
   return (
     <div className="flex h-fit flex-col gap-2 rounded-lg border px-8 py-6">
-      {fields.map((field) => (
-        <SortableField key={field.id} field={field} />
-      ))}
+      {fields.length ? (
+        fields.map((field) => (
+          <SortableField
+            key={field.id}
+            field={field}
+            onDeleteField={onDeleteField}
+            onUpdateField={onUpdateField}
+          />
+        ))
+      ) : (
+        <p className="text-center font-semibold text-purple-600">
+          Start to add your fields!
+        </p>
+      )}
     </div>
   );
 }
 
-function SortableField({ field }: { field: Field }) {
+type SortableFieldProps = {
+  field: Field;
+  onUpdateField: () => void;
+  onDeleteField: (id: string) => void;
+};
+
+function SortableField({
+  field,
+  onDeleteField,
+  onUpdateField,
+}: SortableFieldProps) {
   const {
     attributes,
     listeners,
@@ -35,7 +62,12 @@ function SortableField({ field }: { field: Field }) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <FieldItem field={field} isDragging={isDragging} />
+      <FieldItem
+        field={field}
+        isDragging={isDragging}
+        onDeleteField={onDeleteField}
+        onUpdateField={onUpdateField}
+      />
     </div>
   );
 }

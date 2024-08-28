@@ -12,4 +12,9 @@ export type Field = {
         errorMessage?: string;
       }
     | undefined;
+  // lib: {
+  //   shadcn: boolean;
+  //   rhf: boolean;
+  //   tsx: boolean;
+  // };
 };
