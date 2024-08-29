@@ -11,10 +11,10 @@ export default function GeneratedFormItem({
   index,
 }: GeneratedFormItemProps) {
   return (
-    <div className="bg-red-400 p-4">
-      <Link href={`/form-generated/${form.id}`}>
+    <Link href={`/form-generated/${form.id}`}>
+      <div className="rounded-xl bg-purple-300 p-4 text-zinc-800 transition-colors duration-300 hover:bg-purple-400">
         <h3>Form #{index}</h3>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }

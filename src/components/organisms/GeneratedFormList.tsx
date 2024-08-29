@@ -7,7 +7,7 @@ type GeneratedFormListProps = {
 
 export default function GeneratedFormList({ forms }: GeneratedFormListProps) {
   return (
-    <div className="grid w-full max-w-2xl grid-cols-3 gap-4">
+    <div className="grid w-full grid-rows-1 gap-4 md:grid-cols-3">
       {forms.map((form, index) => (
         <GeneratedFormItem key={form.id} form={form} index={index + 1} />
       ))}

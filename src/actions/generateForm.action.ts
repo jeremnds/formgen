@@ -1,9 +1,10 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import OpenAI from "openai";
 import { auth } from "../lib/auth";
 import { createForm } from "../queries/createForm.query";
-import { redirect } from "next/navigation";
+import { getFormsByUserId } from "../queries/getFormsById.query";
 
 export async function generateForm(prompt: string) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -15,6 +16,16 @@ export async function generateForm(prompt: string) {
   const session = await auth();
   if (!session) {
     redirect("/error?error=access_denied");
+  }
+
+  const maxForms = Number(process.env.MAX_GENERATION);
+  if (!maxForms) {
+    throw new Error("Missing MAX_GENERATION in .env");
+  }
+
+  const forms = await getFormsByUserId(session.user.id);
+  if (session.user.role === "user" && forms.length === maxForms) {
+    redirect("/error?error=forms_limit_reached");
   }
 
   const openai = new OpenAI({

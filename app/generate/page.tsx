@@ -98,8 +98,10 @@ export default function Page() {
       setIsLoading(true);
       const prompt = createFormPrompt(fields, options);
       try {
-        const { id: formId } = await generateForm(prompt);
-        router.push(`/form-generated/${formId}`);
+        const formData = await generateForm(prompt);
+        if (formData) {
+          router.push(`/form-generated/${formData.id}`);
+        }
       } finally {
         setIsLoading(false);
       }

@@ -24,6 +24,10 @@ export default function AuthErrorPage() {
       errorMessage =
         "There was an error generating the form. Please try again.";
       break;
+    case "forms_limit_reached":
+      errorMessage =
+        "You have reached the maximum number of forms you can generate.";
+      break;
     default:
       errorMessage = "An unknown error occurred.";
       break;
@@ -39,7 +43,7 @@ export default function AuthErrorPage() {
           {errorMessage}
         </div>
         <Link href="/" className={buttonVariants()}>
-          Go home
+          Return home
         </Link>
       </div>
     </Container>

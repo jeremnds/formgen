@@ -31,6 +31,7 @@ const authConfig: NextAuthConfig = {
         const user = await getUserByEmail(session.user.email);
         if (user && session.user) {
           session.user.id = user.id;
+          session.user.role = user.role;
         }
       }
       return session;
