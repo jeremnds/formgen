@@ -20,6 +20,10 @@ export default function AuthErrorPage() {
     case "access_denied":
       errorMessage = "Access denied. You do not have the required permissions.";
       break;
+    case "cannot_generate_form":
+      errorMessage =
+        "There was an error generating the form. Please try again.";
+      break;
     default:
       errorMessage = "An unknown error occurred.";
       break;

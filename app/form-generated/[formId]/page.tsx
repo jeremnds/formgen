@@ -4,6 +4,7 @@ import FormRender from "@/src/components/molecules/FormRender";
 import { auth } from "@/src/lib/auth";
 import { getFormById } from "@/src/queries/getFormById.query";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 type FormIdProps = {
   params: {
@@ -23,8 +24,12 @@ export default async function Page({ params }: FormIdProps) {
   return (
     <Container>
       <div className="mt-6 flex h-full flex-col gap-6 md:flex-row">
-        <FormRender liveCode={data.liveCode} />
-        <FormCode generatedCode={data.generatedCode} />
+        <Suspense fallback={<div>Loading form...</div>}>
+          <FormRender liveCode={data.liveCode} />
+        </Suspense>
+        <Suspense fallback={<div>Loading code...</div>}>
+          <FormCode generatedCode={data.generatedCode} />
+        </Suspense>
       </div>
     </Container>
   );

@@ -1,10 +1,11 @@
 "use client";
 
-import { generateStaticForm } from "@/src/actions/generateForm.action";
+import { generateForm } from "@/src/actions/generateForm.action";
 import Container from "@/src/components/atoms/Container";
 import Loader from "@/src/components/atoms/Loader";
 import AddFieldForm from "@/src/components/organisms/AddFieldForm";
 import FieldList from "@/src/components/organisms/FieldList";
+import { createFormPrompt } from "@/src/lib/utils";
 import { FieldType } from "@/src/models/field.type";
 import { FieldFormData } from "@/src/models/form.type";
 import {
@@ -94,18 +95,14 @@ export default function Page() {
     };
 
     if (fields.length) {
-      // const prompt = createFormPrompt(fields, options);
-      // console.log(prompt);
       setIsLoading(true);
+      const prompt = createFormPrompt(fields, options);
       try {
-        const { id: formId } = await generateStaticForm();
+        const { id: formId } = await generateForm(prompt);
         router.push(`/form-generated/${formId}`);
       } finally {
         setIsLoading(false);
       }
-      // const { generatedCode, liveCode } = await generateForm(prompt);
-      // console.log("generated:", generatedCode);
-      // console.log("live code:", liveCode);
     }
   };
 
