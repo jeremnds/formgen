@@ -21,7 +21,7 @@ export default function FormCode({ generatedCode }: FormCodeProps) {
   return (
     <div className="basis-1/2">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold">Form Code</h2>
+        <h2 className="text-lg font-bold text-purple-900">Code</h2>
         <Button onClick={handleCopy} className="rounded-full" type="button">
           {copied ? "Copied!" : "Copy Code"}
         </Button>

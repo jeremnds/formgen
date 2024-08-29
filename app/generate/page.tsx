@@ -182,6 +182,7 @@ export default function Page() {
               toggleZod={() => setZod((prev) => !prev)}
               tsx={tsx}
               toggleTsx={() => setTsx((prev) => !prev)}
+              fields={fields}
             />
           </div>
         </div>

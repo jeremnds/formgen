@@ -29,7 +29,7 @@ export default async function Header() {
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="rounded-sm px-2 py-1 text-white transition-colors hover:bg-red-600"
+                className="rounded-sm px-2 py-1 text-white transition-colors hover:bg-purple-600"
               >
                 Sign out
               </button>

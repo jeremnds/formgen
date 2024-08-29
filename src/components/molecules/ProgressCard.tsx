@@ -30,7 +30,7 @@ export default function ProgressCard({ forms }: ProgressCardProps) {
       <CardFooter className="text-center text-sm">
         {numForms === maxForms
           ? "No more forms can be generated"
-          : `${numForms} of ${maxForms} forms available`}
+          : `${numForms} out of ${maxForms} forms available`}
       </CardFooter>
     </Card>
   );

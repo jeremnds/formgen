@@ -1,4 +1,6 @@
 import Container from "@/src/components/atoms/Container";
+import SkeletonCode from "@/src/components/atoms/SkeletonCode";
+import SkeletonRender from "@/src/components/atoms/SkeletonRender";
 import FormCode from "@/src/components/molecules/FormCode";
 import FormRender from "@/src/components/molecules/FormRender";
 import { auth } from "@/src/lib/auth";
@@ -24,10 +26,10 @@ export default async function Page({ params }: FormIdProps) {
   return (
     <Container>
       <div className="mt-6 flex h-full flex-col gap-6 md:flex-row">
-        <Suspense fallback={<div>Loading form...</div>}>
+        <Suspense fallback={<SkeletonRender />}>
           <FormRender liveCode={data.liveCode} />
         </Suspense>
-        <Suspense fallback={<div>Loading code...</div>}>
+        <Suspense fallback={<SkeletonCode />}>
           <FormCode generatedCode={data.generatedCode} />
         </Suspense>
       </div>

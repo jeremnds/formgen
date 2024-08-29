@@ -33,8 +33,8 @@ export default function FormRender({ liveCode }: FormRenderProps) {
 
   return (
     <div className="basis-1/2">
-      <h2 className="mb-4 text-lg font-bold">Form Render</h2>
-      <div className="rounded-lg bg-white px-6 py-4">
+      <h2 className="mb-7 text-lg font-bold text-purple-900">Result</h2>
+      <div className="rounded-lg bg-purple-100 px-6 py-4">
         <LiveProvider code={liveCode} scope={scope} noInline>
           <LivePreview />
           <LiveError className="mt-2 bg-red-100 text-red-800" />
