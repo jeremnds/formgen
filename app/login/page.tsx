@@ -1,5 +1,5 @@
+import { signInAction } from "@/src/actions/signIn.action";
 import Container from "@/src/components/atoms/Container";
-// import { signInAction } from "@/src/lib/actions";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,7 @@ export default async function Page() {
             Form<span className="font-bold text-purple-800">Gen</span>
           </Link>
         </h3>
-        <form>
+        <form action={signInAction}>
           <button className="border-primary-300 flex items-center gap-6 border px-10 py-4 text-lg font-medium">
             <Image
               src="https://authjs.dev/img/providers/google.svg"
