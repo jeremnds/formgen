@@ -1,6 +1,5 @@
 "use client";
 
-import { generateForm } from "@/src/actions/generateForm.action";
 import Container from "@/src/components/atoms/Container";
 import AddFieldForm from "@/src/components/organisms/AddFieldForm";
 import FieldList from "@/src/components/organisms/FieldList";
@@ -85,11 +84,13 @@ export default function Page() {
       tsx,
     };
 
-    const prompt = createFormPrompt(fields, options);
-    console.log(prompt);
-    const { generatedCode, liveCode } = await generateForm(prompt);
-    console.log("generated:", generatedCode);
-    console.log("live code:", liveCode);
+    if (fields.length) {
+      const prompt = createFormPrompt(fields, options);
+      console.log(prompt);
+      // const { generatedCode, liveCode } = await generateForm(prompt);
+      // console.log("generated:", generatedCode);
+      // console.log("live code:", liveCode);
+    }
   };
 
   const handleOnDragEnd = (event: any) => {
