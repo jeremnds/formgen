@@ -1,16 +1,18 @@
 import { signInAction } from "@/src/actions/signIn.action";
 import Container from "@/src/components/atoms/Container";
+import { auth } from "@/src/lib/auth";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Login",
 };
 
 export default async function Page() {
-  // const session = await auth();
-  // if (session) redirect("/account");
+  const session = await auth();
+  if (session) redirect("/account");
 
   return (
     <Container className="flex h-full items-center justify-center">

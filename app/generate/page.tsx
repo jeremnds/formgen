@@ -1,9 +1,10 @@
 "use client";
 
+import { generateStaticForm } from "@/src/actions/generateForm.action";
 import Container from "@/src/components/atoms/Container";
+import Loader from "@/src/components/atoms/Loader";
 import AddFieldForm from "@/src/components/organisms/AddFieldForm";
 import FieldList from "@/src/components/organisms/FieldList";
-import { createFormPrompt } from "@/src/lib/utils";
 import { FieldType } from "@/src/models/field.type";
 import { FieldFormData } from "@/src/models/form.type";
 import {
@@ -25,16 +26,24 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Page() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  if (!session) router.push("/login");
+
   const [fields, setFields] = useState<FieldType[]>([]);
   const [updateField, setUpdateField] = useState<FieldType | null>(null);
   const [shadcn, setShadcn] = useState(true);
   const [rhf, setRhf] = useState(true);
   const [zod, setZod] = useState(true);
   const [tsx, setTsx] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddField = (data: FieldFormData) => {
     const newField: FieldType = {
@@ -85,8 +94,15 @@ export default function Page() {
     };
 
     if (fields.length) {
-      const prompt = createFormPrompt(fields, options);
-      console.log(prompt);
+      // const prompt = createFormPrompt(fields, options);
+      // console.log(prompt);
+      setIsLoading(true);
+      try {
+        const { id: formId } = await generateStaticForm();
+        router.push(`/form-generated/${formId}`);
+      } finally {
+        setIsLoading(false);
+      }
       // const { generatedCode, liveCode } = await generateForm(prompt);
       // console.log("generated:", generatedCode);
       // console.log("live code:", liveCode);
@@ -126,43 +142,51 @@ export default function Page() {
   );
 
   return (
-    <Container className="mt-16">
-      <div className="flex flex-col gap-6 md:flex-row">
-        <div className="order-2 md:order-1 md:basis-1/3">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleOnDragEnd}
-            modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
-          >
-            <SortableContext
-              items={fields.map((field) => field.id)}
-              strategy={verticalListSortingStrategy}
+    <>
+      {isLoading && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-sm">
+          <Loader />
+        </div>
+      )}
+
+      <Container className="relative mt-16">
+        <div className="flex flex-col gap-6 md:flex-row">
+          <div className="order-2 md:order-1 md:basis-1/3">
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleOnDragEnd}
+              modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
             >
-              <FieldList
-                fields={fields}
-                onDeleteField={handleDeleteField}
-                onUpdateField={handleUpdateField}
-              />
-            </SortableContext>
-          </DndContext>
+              <SortableContext
+                items={fields.map((field) => field.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <FieldList
+                  fields={fields}
+                  onDeleteField={handleDeleteField}
+                  onUpdateField={handleUpdateField}
+                />
+              </SortableContext>
+            </DndContext>
+          </div>
+          <div className="order-1 md:order-2 md:basis-2/3">
+            <AddFieldForm
+              onAddField={handleAddField}
+              updateField={updateField}
+              onGenerateForm={handleGenerateForm}
+              shadcn={shadcn}
+              toggleShadcn={() => setShadcn((prev) => !prev)}
+              rhf={rhf}
+              toggleRhf={() => setRhf((prev) => !prev)}
+              zod={zod}
+              toggleZod={() => setZod((prev) => !prev)}
+              tsx={tsx}
+              toggleTsx={() => setTsx((prev) => !prev)}
+            />
+          </div>
         </div>
-        <div className="order-1 md:order-2 md:basis-2/3">
-          <AddFieldForm
-            onAddField={handleAddField}
-            updateField={updateField}
-            onGenerateForm={handleGenerateForm}
-            shadcn={shadcn}
-            toggleShadcn={() => setShadcn((prev) => !prev)}
-            rhf={rhf}
-            toggleRhf={() => setRhf((prev) => !prev)}
-            zod={zod}
-            toggleZod={() => setZod((prev) => !prev)}
-            tsx={tsx}
-            toggleTsx={() => setTsx((prev) => !prev)}
-          />
-        </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 }
