@@ -25,7 +25,7 @@ export function createFormPrompt(
 
   if (shadcn) {
     prompt +=
-      " with shadCN components, using <Label>, <Input>, <Checkbox>, <Textarea>, <Button>";
+      " with shadCN components, using <Label>, <Input>, <Checkbox>, <Textarea>, <Button>, ensuring radio labels are aligned with inputs.";
   }
 
   if (zod) {
@@ -63,7 +63,7 @@ export function createFormPrompt(
             .map((option) => `"${option.trim()}"`)
             .join(", ");
 
-          fieldCode = `${field.name}: radio buttons with options ${radioOptions}, ${validationRules}, and ${labelCode}. Use <RadioGroup> and <RadioGroupItem>.`;
+          fieldCode = `${field.name}: radio buttons with options ${radioOptions}, ${validationRules}, and ${labelCode}. Use <RadioGroup> and <RadioGroupItem> with <Controller>.`;
         } else if (field.type === "checkbox") {
           fieldCode = `${field.name}: checkbox input, ${validationRules}, use <Checkbox> ${
             rhf ? "with <Controller>" : ""
@@ -99,7 +99,7 @@ export function createFormPrompt(
     .join("\n");
 
   prompt +=
-    "\n\nEnsure there is spacing (using margin, gap, or padding) between labels and inputs. Use TailwindCSS to space out the form elements, and ensure the form takes the full width.";
+    "\n\nEnsure there is spacing (using margin, gap, or padding) between labels, inputs and button. Use TailwindCSS to space out the form elements, and ensure the form has no max-width and spans the full width of its container.";
   prompt +=
     "\nCreate a component <Form> and export default <Form> at the end. Respond with the code only, without explanations.";
 

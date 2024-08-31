@@ -12,6 +12,27 @@ const config = {
     {
       pattern: /^bg-blue-/,
     },
+    {
+      pattern: /^rounded$/,
+    },
+    {
+      pattern: /^rounded-/,
+    },
+    {
+      pattern: /^text-red-/,
+    },
+    {
+      pattern: /^mt-/,
+    },
+    {
+      pattern: /^ml-/,
+    },
+    {
+      pattern: /^mr-/,
+    },
+    {
+      pattern: /^space-/,
+    },
   ],
   prefix: "",
   theme: {

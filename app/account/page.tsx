@@ -10,15 +10,13 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  console.log(session);
   if (!session) redirect("/");
   const name = session.user.name.split(" ")[0];
-
+  const maxForms = Number(process.env.MAX_GENERATION);
   const forms = await getFormsByUserId(session.user.id);
 
-  console.log("length", forms.length);
   return (
-    <Container className="flex h-full flex-col gap-20">
+    <Container className="flex h-full flex-col gap-24 md:gap-48">
       <div className="flex flex-col items-center gap-16 pt-10">
         <h1 className="text-xl text-zinc-800">
           Hello <span className="font-semibold text-purple-800"> {name}</span>
@@ -36,11 +34,23 @@ export default async function Page() {
           </div>
         )}
       </div>
-      {forms.length > 0 && session.user.role === "user" && (
-        <div className="flex w-full flex-1 flex-grow items-start md:items-center">
-          <ProgressCard forms={forms} />
-        </div>
-      )}
+      <div className="grid max-h-56 w-full grid-rows-1 gap-8 md:grid-cols-3 md:flex-row md:items-center">
+        {forms.length > 0 && session.user.role === "user" && (
+          <div className="flex justify-center md:justify-normal">
+            <ProgressCard forms={forms} />
+          </div>
+        )}
+        {forms.length < maxForms && (
+          <div className="flex justify-center">
+            <Link
+              href="/generate"
+              className={cn(buttonVariants(), "rounded-full")}
+            >
+              Generate a new form
+            </Link>
+          </div>
+        )}
+      </div>
     </Container>
   );
 }
