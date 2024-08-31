@@ -5,6 +5,7 @@ import FormCode from "@/src/components/molecules/FormCode";
 import FormRender from "@/src/components/molecules/FormRender";
 import { auth } from "@/src/lib/auth";
 import { getFormById } from "@/src/queries/getFormById.query";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -12,6 +13,10 @@ type FormIdProps = {
   params: {
     formId: string;
   };
+};
+
+export const metadata: Metadata = {
+  title: "Form Generated",
 };
 
 export default async function Page({ params }: FormIdProps) {

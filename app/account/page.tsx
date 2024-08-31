@@ -5,8 +5,13 @@ import GeneratedFormList from "@/src/components/organisms/GeneratedFormList";
 import { auth } from "@/src/lib/auth";
 import { cn } from "@/src/lib/utils";
 import { getFormsByUserId } from "@/src/queries/getFormsById.query";
+import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Account",
+};
 
 export default async function Page() {
   const session = await auth();
