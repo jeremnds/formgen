@@ -4,7 +4,7 @@ import { generateForm } from "@/src/actions/generateForm.action";
 import useDndSensors from "@/src/hooks/useDndSensors";
 import useField from "@/src/hooks/useField";
 import useLibrary from "@/src/hooks/useLibrary";
-import { createFormPrompt } from "@/src/lib/utils";
+import { createFormPrompt } from "@/src/lib/formHelper";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   restrictToVerticalAxis,

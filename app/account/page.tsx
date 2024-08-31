@@ -40,7 +40,7 @@ export default async function Page() {
             <ProgressCard forms={forms} />
           </div>
         )}
-        {forms.length < maxForms && (
+        {forms.length > 0 && forms.length < maxForms && (
           <div className="flex justify-center">
             <Link
               href="/generate"
