@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import OpenAI from "openai";
+import { encoding_for_model } from "tiktoken";
 import { auth } from "../lib/auth";
 import { createForm } from "../queries/createForm.query";
 import { getFormsByUserId } from "../queries/getFormsById.query";
@@ -32,11 +33,21 @@ export async function generateForm(prompt: string) {
     apiKey: apiKey,
   });
 
+  const encoder = encoding_for_model("gpt-4o-2024-08-06");
+  const promptTokens = encoder.encode(prompt).length;
+  const maxCompletionTokens = 1000;
+
+  const maxAllowedTokens = 1500;
+
+  if (promptTokens + maxCompletionTokens > maxAllowedTokens) {
+    throw new Error("The request exceeds the maximum allowed token limit.");
+  }
+
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-4o-2024-08-06",
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 1000,
+      max_tokens: maxAllowedTokens,
     });
 
     let generatedCode = response.choices[0].message?.content || "";
@@ -52,8 +63,12 @@ export async function generateForm(prompt: string) {
     const formData = await createForm(generatedCode, liveCode, session.user.id);
 
     return formData;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating form:", error);
-    redirect("/error?error=cannot_generate_form");
+    if (error.message.includes("token limit")) {
+      redirect("/error?error=token_limit_exceeded");
+    } else {
+      redirect("/error?error=cannot_generate_form");
+    }
   }
 }

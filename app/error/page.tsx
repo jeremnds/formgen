@@ -28,6 +28,10 @@ export default function AuthErrorPage() {
       errorMessage =
         "You have reached the maximum number of forms you can generate.";
       break;
+    case "token_limit_exceeded":
+      errorMessage =
+        "The request exceeded the maximum allowed content size. Please try simplifying your form.";
+      break;
     default:
       errorMessage = "An unknown error occurred.";
       break;
