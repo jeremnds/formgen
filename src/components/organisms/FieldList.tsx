@@ -58,6 +58,7 @@ function SortableField({
     transform: CSS.Transform.toString(transform),
     transition,
     zIndex: isDragging ? 999 : "auto",
+    touchAction: "none",
   };
 
   return (

@@ -15,7 +15,7 @@ export default function LibraryField({
   return (
     <div className="mt-2 flex flex-col">
       <Label className="mb-2">Options for your form</Label>
-      <div className="my-2 flex gap-4">
+      <div className="my-2 flex flex-col gap-4 md:flex-row">
         <div className="flex items-center gap-2">
           <Checkbox
             name="shadcn"

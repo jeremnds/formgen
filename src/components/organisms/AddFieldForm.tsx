@@ -23,6 +23,7 @@ type AddFieldFormProps = {
   onAddField: (data: FieldFormData) => void;
   updateField?: FieldType | null;
   onGenerateForm: () => void;
+  fields: FieldType[];
 } & LibraryFieldType;
 
 export default function AddFieldForm({
@@ -37,6 +38,7 @@ export default function AddFieldForm({
   toggleZod,
   tsx,
   toggleTsx,
+  fields,
 }: AddFieldFormProps) {
   const [validation, setValidation] = useState(false);
   const [type, setType] = useState("text");
@@ -223,7 +225,12 @@ export default function AddFieldForm({
           <Button type="submit" className={cn(updateField && "bg-purple-500")}>
             {updateField ? "Edit Field" : "Add Field"}
           </Button>
-          <Button type="button" className="rounded-lg" onClick={onGenerateForm}>
+          <Button
+            type="button"
+            className="rounded-lg"
+            onClick={onGenerateForm}
+            disabled={!fields.length ? true : false}
+          >
             Generate Form
           </Button>
         </div>
