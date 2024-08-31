@@ -194,7 +194,7 @@ The user account dashboard where all previously generated forms can be accessed.
 ## 🌐 Live Demo
 
 Check out the live version of FormGen:  
-[Click here](https://greenbay-mu.vercel.app/)
+[Click here](https://formgen-two.vercel.app/)
 
 ## 📄 License
 

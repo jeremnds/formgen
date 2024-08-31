@@ -47,7 +47,7 @@ export async function generateForm(prompt: string) {
     const response = await openai.chat.completions.create({
       model: "gpt-4o-2024-08-06",
       messages: [{ role: "user", content: prompt }],
-      max_tokens: maxAllowedTokens,
+      max_tokens: maxCompletionTokens,
     });
 
     let generatedCode = response.choices[0].message?.content || "";
