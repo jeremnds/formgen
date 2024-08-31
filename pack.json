@@ -58,8 +58,6 @@
     "typescript": "^5"
   },
   "prettier": {
-    "plugins": [
-      "prettier-plugin-tailwindcss"
-    ]
+    "plugins": ["prettier-plugin-tailwindcss"]
   }
 }
