@@ -7,7 +7,6 @@
 
 ## 📑 Table of Contents
 
-- [FormGen](#formgen)
 - [✨ Features](#-features)
 - [🛠 Technologies Used](#-technologies-used)
 - [🔧️ Prerequisites](#️-prerequisites)
