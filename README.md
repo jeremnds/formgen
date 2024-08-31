@@ -5,6 +5,20 @@
 ![Next.js](https://img.shields.io/badge/Next.js-14.0-000000?logo=nextdotjs&logoColor=white)
 ![MIT License](https://img.shields.io/badge/License-MIT-green)
 
+## 📑 Table of Contents
+
+- [FormGen](#formgen)
+- [✨ Features](#-features)
+- [🛠 Technologies Used](#-technologies-used)
+- [🔧️ Prerequisites](#️-prerequisites)
+- [⚙️ Installation](#️-installation)
+- [🚀 Usage](#-usage)
+- [🔐 Environment Variables](#-environment-variables)
+- [🗃️ Database Setup](#️-database-setup)
+- [📸 Screenshots](#-screenshots)
+- [🌐 Live Demo](#-live-demo)
+- [📄 License](#-license)
+
 ## ✨ Features
 
 - **AI-Driven Form Generation**: Generate forms by simply specifying input types and validations.
