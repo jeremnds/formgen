@@ -100,7 +100,7 @@ export default function AddFieldForm({
   };
 
   return (
-    <div className="rounded-lg border px-8 py-6">
+    <div className="mb-10 rounded-lg border px-8 py-6">
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Label>Name of your input</Label>

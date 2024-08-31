@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../atoms/Container";
 import Loader from "../atoms/Loader";
 import AddFieldForm from "./AddFieldForm";
@@ -69,10 +69,19 @@ export default function GenerateForm() {
     }
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLoading]);
+
   return (
     <>
       {isLoading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white bg-opacity-70 backdrop-blur-sm">
           <Loader />
         </div>
       )}

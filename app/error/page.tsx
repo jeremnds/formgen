@@ -2,13 +2,8 @@
 
 import Container from "@/src/components/atoms/Container";
 import { buttonVariants } from "@/src/components/atoms/shadcn/button";
-import { Metadata } from "next";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
-export const metadata: Metadata = {
-  title: "Error",
-};
 
 export default function AuthErrorPage() {
   const searchParams = useSearchParams();
