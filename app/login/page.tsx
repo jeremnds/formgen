@@ -23,7 +23,7 @@ export default async function Page() {
           </Link>
         </h3>
         <form action={signInAction}>
-          <button className="border-primary-300 text-md flex items-center gap-6 border px-10 py-4 font-medium md:text-lg">
+          <button className="border-primary-300 flex w-full items-center gap-6 border px-10 py-4 text-sm font-medium md:text-lg">
             <Image
               src="https://authjs.dev/img/providers/google.svg"
               alt="Google logo"
